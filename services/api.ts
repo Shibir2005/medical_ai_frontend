@@ -68,6 +68,7 @@ export const authService = {
 
   checkAuth: () => api.get('/api/auth/me/'),
   logout: () => api.post('/api/auth/logout/'),
+  getUser: () => api.get('/api/auth/profile/'),
 }
 
 

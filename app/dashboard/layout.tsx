@@ -30,6 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [assessmentTypes, setAssessmentTypes] = useState<AssessmentType[]>([])
   const [loading, setLoading] = useState(true)
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [profile, setProfile] = useState<any>(null)
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -55,6 +56,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       const res = await fetch(`${API_BASE}/api/health/assessment-types/`, {
         credentials: 'include',
       })
+      const response = await authService.getUser() 
+      setProfile(response.data)
       const data = await res.json()
       setAssessmentTypes(data.data || [])
     } catch (err) {
@@ -165,8 +168,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <User className="w-3.5 h-3.5 text-teal-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">Dr. User</p>
-              <p className="text-xs text-slate-500 truncate">Clinician</p>
+              <p className="text-sm font-medium text-white truncate">{profile?.full_name || "-"}</p>
             </div>
           </div>
           <button
